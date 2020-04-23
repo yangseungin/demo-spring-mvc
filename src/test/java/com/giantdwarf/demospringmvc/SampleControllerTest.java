@@ -10,8 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
@@ -22,20 +21,23 @@ public class SampleControllerTest {
 
     @Test
     public void helloTest() throws Exception {
-        mockMvc.perform(get("/hello"))
+        mockMvc.perform(get("/hello/yang"))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(content().string("hello yang"))
+                .andExpect(handler().handlerType(SampleController.class))
+                .andExpect(handler().methodName("helloYang"))
+        ;
+        mockMvc.perform(get("/hello/yang.json"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
         ;
 
-        mockMvc.perform(put("/hello"))
-                .andDo(print())
-                .andExpect(status().isOk())
-        ;
+//        mockMvc.perform(get("/hi"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//        ;
 
-        mockMvc.perform(post("/hello"))
-                .andDo(print())
-                .andExpect(status().isMethodNotAllowed())
-        ;
 
 
     }
