@@ -1,5 +1,6 @@
 package com.giantdwarf.demospringmvc;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -8,11 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class SampleController {
 
     //@PostMapping @PutMapping @PatchMapping //하나만 쓸때
-    @RequestMapping(
-            value = "/hello",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.TEXT_PLAIN_VALUE
-    )
+    @RequestMapping(value = "/hello", headers =HttpHeaders.FROM ,params = "name=yang")
     @ResponseBody
     public String hello() {
         return "hello";
