@@ -9,9 +9,15 @@ import org.springframework.web.bind.annotation.*;
 public class SampleController {
 
     //@PostMapping @PutMapping @PatchMapping //하나만 쓸때
-    @RequestMapping(value = "/hello", headers =HttpHeaders.FROM ,params = "name=yang")
+    @GetMapping(value = "/hello")
     @ResponseBody
     public String hello() {
+        return "hello";
+    }
+
+    @PostMapping(value = "/hello")
+    @ResponseBody
+    public String helloPost() {
         return "hello";
     }
 

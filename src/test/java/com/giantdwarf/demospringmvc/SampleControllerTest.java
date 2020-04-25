@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,11 +25,15 @@ public class SampleControllerTest {
 
     @Test
     public void helloTest() throws Exception {
-        mockMvc.perform(get("/hello")
-                    .header(HttpHeaders.FROM,"")
-                    .param("name","yang"))
+        mockMvc.perform(options("/hello"))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(header().stringValues(HttpHeaders.ALLOW, hasItems(
+                        containsString("GET"),
+                        containsString("POST"),
+                        containsString("HEAD"),
+                        containsString("OPTIONS")
+                )))
         ;
 //        mockMvc.perform(get("/hello/yang.json"))
 //                .andDo(print())
@@ -38,7 +44,6 @@ public class SampleControllerTest {
 //                .andDo(print())
 //                .andExpect(status().isOk())
 //        ;
-
 
 
     }
