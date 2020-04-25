@@ -25,15 +25,10 @@ public class SampleControllerTest {
 
     @Test
     public void helloTest() throws Exception {
-        mockMvc.perform(options("/hello"))
+        mockMvc.perform(get("/hello"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(header().stringValues(HttpHeaders.ALLOW, hasItems(
-                        containsString("GET"),
-                        containsString("POST"),
-                        containsString("HEAD"),
-                        containsString("OPTIONS")
-                )))
+
         ;
 //        mockMvc.perform(get("/hello/yang.json"))
 //                .andDo(print())

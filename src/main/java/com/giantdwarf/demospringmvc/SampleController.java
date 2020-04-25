@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class SampleController {
 
     //@PostMapping @PutMapping @PatchMapping //하나만 쓸때
-    @GetMapping(value = "/hello")
+    @GetHelloMapping
     @ResponseBody
     public String hello() {
         return "hello";
