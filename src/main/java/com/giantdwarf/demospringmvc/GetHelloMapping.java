@@ -11,3 +11,4 @@ import java.lang.annotation.*;
 @RequestMapping(method = RequestMethod.GET, value = "/hello")
 public @interface GetHelloMapping {
 }
+
