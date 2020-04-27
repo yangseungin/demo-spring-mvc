@@ -24,57 +24,22 @@ public class SampleControllerTest {
     MockMvc mockMvc;
 
     @Test
-    public void createEvent() throws Exception {
-        mockMvc.perform(
-                post("/events")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
-    }
-
-    @Test
-    public void updateEvent() throws Exception {
-        mockMvc.perform(
-                put("/events")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
-    }
-
-    @Test
     public void deleteEvent() throws Exception {
-        mockMvc.perform(delete("/events/1"))
-                .andExpect(status().isOk());
-        mockMvc.perform(delete("/events/2"))
-                .andExpect(status().isOk());
-        mockMvc.perform(delete("/events/3"))
-                .andExpect(status().isOk());
-    }
-
-
-    @Test
-    public void helloTest() throws Exception {
-        mockMvc.perform(get("/hello"))
+        mockMvc.perform(get("/events/1;name=yang"))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("id").value(1))
         ;
-    }
 
+    }
     @Test
-    public void getEvents() throws Exception {
-        mockMvc.perform(get("/events"))
-                .andExpect(status().isOk());
-    }
+    public void findpet() throws Exception {
+        mockMvc.perform(get("/owners/42;q=11;r=12/pets/21;q=22;s=23"))
+                .andDo(print())
+                .andExpect(status().isOk())
 
-    @Test
-    public void getEventsWithId() throws Exception {
-        mockMvc.perform(get("/events/1"))
-                .andExpect(status().isOk());
-        mockMvc.perform(get("/events/2"))
-                .andExpect(status().isOk());
-        mockMvc.perform(get("/events/3"))
-                .andExpect(status().isOk());
-    }
+        ;
 
+    }
 
 }

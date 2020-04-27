@@ -1,48 +1,34 @@
 package com.giantdwarf.demospringmvc;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Stream;
 
 @Controller
 public class SampleController {
 
-    //@PostMapping @PutMapping @PatchMapping //하나만 쓸때
-    @GetHelloMapping
-    @ResponseBody
-    public String hello() {
-        return "hello";
-    }
-
-    @PostMapping(value = "/hello")
-    @ResponseBody
-    public String helloPost() {
-        return "hello";
-    }
-
-    @GetMapping("/events")
-    @ResponseBody
-    public String events() {
-        return "events";
-    }
-
     @GetMapping("/events/{id}")
     @ResponseBody
-    public String getEvents(@PathVariable int id) {
-        return "events";
-    }
-    @DeleteMapping("/events/{id}")
-    @ResponseBody
-    public String deleteEvents(@PathVariable int id) {
-        return "events";
+    public Event getEvent(@PathVariable Integer id,@MatrixVariable String name){
+        Event event = new Event();
+        event.setId(id);
+        event.setName(name);
+        return event;
     }
 
-//    @RequestMapping("/**") //배열로도 가능
-//    @ResponseBody
-//    public String hello() {
-//        return "hello";
-//    }
+    @GetMapping("/owners/{ownerId}/pets/{petId}")
+    @ResponseBody
+    public String findPet(
+            @MatrixVariable MultiValueMap<String, String> matrixVars,
+            @MatrixVariable(pathVar="petId") MultiValueMap<String, String> petMatrixVars) {
+
+        System.out.println(matrixVars.get("q"));
+        System.out.println(petMatrixVars.get("q"));
+
+        // matrixVars: ["q" : [11,22], "r" : 12, "s" : 23]
+        // petMatrixVars: ["q" : 22, "s" : 23]
+        return "owners";
+    }
+
+
 }
