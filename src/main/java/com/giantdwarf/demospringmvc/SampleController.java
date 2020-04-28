@@ -3,7 +3,11 @@ package com.giantdwarf.demospringmvc;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 public class SampleController {
@@ -18,10 +22,13 @@ public class SampleController {
 
     @PostMapping("/events")
     @ResponseBody
-    public Event getEvent(@RequestParam String name, @RequestParam Integer limit) {
-        Event event = new Event();
-        event.setName(name);
-        event.setLimit(limit);
+    public Event getEvent(@Validated(Event.ValidateLimit.class) @ModelAttribute Event event, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            System.out.println("-----------");
+            bindingResult.getAllErrors().forEach(c->{
+                System.out.println(c.toString());
+            });
+        }
         return event;
     }
 
