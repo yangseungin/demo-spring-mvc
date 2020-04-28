@@ -8,6 +8,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -33,14 +37,17 @@ public class SampleControllerTest {
     }
 
     @Test
-    public void deleteEvent() throws Exception {
-        mockMvc.perform(post("/events")
+    public void postEvent() throws Exception {
+        ResultActions result = mockMvc.perform(post("/events")
                 .param("name", "yang")
                 .param("limit", "-10"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("yang"))
-        ;
+                .andExpect(model().hasErrors());
+
+        ModelAndView mav = result.andReturn().getModelAndView();
+        Map<String, Object> model = mav.getModel();
+        System.out.println(model.size());
 
     }
 
