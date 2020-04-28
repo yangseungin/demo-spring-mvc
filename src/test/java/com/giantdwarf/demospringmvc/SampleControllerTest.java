@@ -24,14 +24,26 @@ public class SampleControllerTest {
     MockMvc mockMvc;
 
     @Test
+    public void eventForm() throws Exception {
+        mockMvc.perform(get("/events/form"))
+                .andDo(print())
+                .andExpect(view().name("/events/form"))
+                .andExpect(model().attributeExists("event"))
+        ;
+    }
+
+    @Test
     public void deleteEvent() throws Exception {
-        mockMvc.perform(get("/events/1;name=yang"))
+        mockMvc.perform(post("/events")
+                .param("name", "yang")
+                .param("limit", "20"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(1))
+                .andExpect(jsonPath("name").value("yang"))
         ;
 
     }
+
     @Test
     public void findpet() throws Exception {
         mockMvc.perform(get("/owners/42;q=11;r=12/pets/21;q=22;s=23"))

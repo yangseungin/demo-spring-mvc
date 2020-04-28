@@ -1,34 +1,30 @@
 package com.giantdwarf.demospringmvc;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class SampleController {
 
-    @GetMapping("/events/{id}")
+    @GetMapping("/events/form")
+    public String eventsForm(Model model) {
+        Event newEvent = new Event();
+        newEvent.setLimit(50);
+        model.addAttribute("event", newEvent);
+        return "/events/form";
+    }
+
+    @PostMapping("/events")
     @ResponseBody
-    public Event getEvent(@PathVariable Integer id,@MatrixVariable String name){
+    public Event getEvent(@RequestParam String name, @RequestParam Integer limit) {
         Event event = new Event();
-        event.setId(id);
         event.setName(name);
+        event.setLimit(limit);
         return event;
     }
 
-    @GetMapping("/owners/{ownerId}/pets/{petId}")
-    @ResponseBody
-    public String findPet(
-            @MatrixVariable MultiValueMap<String, String> matrixVars,
-            @MatrixVariable(pathVar="petId") MultiValueMap<String, String> petMatrixVars) {
-
-        System.out.println(matrixVars.get("q"));
-        System.out.println(petMatrixVars.get("q"));
-
-        // matrixVars: ["q" : [11,22], "r" : 12, "s" : 23]
-        // petMatrixVars: ["q" : 22, "s" : 23]
-        return "owners";
-    }
 
 
 }
