@@ -10,6 +10,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +54,8 @@ public class SampleController {
     }
 
     @GetMapping("/events/list")
-    public String getEvents(Model model) {
-        //db에서 읽어왔다고 가정
+    public String getEvents(Model model, @SessionAttribute LocalDateTime visitTime) {
+        System.out.println(visitTime);
         Event event = new Event();
         event.setName("spring");
         event.setLimit(10);
