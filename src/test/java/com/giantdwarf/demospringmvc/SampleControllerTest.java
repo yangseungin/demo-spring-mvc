@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -64,6 +65,20 @@ public class SampleControllerTest {
 
         ;
 
+    }
+
+    @Test
+    public void getEvents() throws Exception {
+        Event newEvent = new Event();
+        newEvent.setName("spring is comming");
+        newEvent.setLimit(100);
+        mockMvc.perform(get("/events/list")
+                .sessionAttr("visitTime", LocalDateTime.now())
+                .flashAttr("newEvent", newEvent))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(xpath("//p").nodeCount(2))
+        ;
     }
 
 }
