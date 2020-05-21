@@ -11,6 +11,11 @@ import javax.validation.Valid;
 @RequestMapping("/api/events")
 public class EventApi {
 
+    @ExceptionHandler
+    public ResponseEntity errorHandler(){
+        return ResponseEntity.badRequest().body("can't create event");
+    }
+
     @PostMapping
 //    @ResponseBody @RestController가 붙은경우 생략 가
     public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event, BindingResult bindingResult){

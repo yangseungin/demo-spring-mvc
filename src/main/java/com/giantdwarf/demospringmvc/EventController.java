@@ -20,6 +20,12 @@ import java.util.List;
 @SessionAttributes("event")
 public class EventController {
 
+    @ExceptionHandler({EventException.class,RuntimeException.class})
+    public String eventErrorHandler(RuntimeException exception, Model model){
+        model.addAttribute("message","event error");
+        return "error";
+    }
+
     @InitBinder("event")
     public void initEventBinder(WebDataBinder webDataBinder){
         webDataBinder.setDisallowedFields("id");
@@ -31,15 +37,11 @@ public class EventController {
         model.addAttribute("categories",List.of("study", "seminar", "hobby", "social"));
     }
 
-//    @ModelAttribute("categories")
-//    public List<String> categories(Model model){
-//        return List.of("study", "seminar", "hobby", "social");
-//    }
-
     @GetMapping("/events/form/name")
     public String eventsFormName(Model model) {
-        model.addAttribute("event", new Event());
-        return "/events/form-name";
+        throw new EventException();
+//        model.addAttribute("event", new Event());
+//        return "/events/form-name";
     }
 
     @PostMapping("/events/form/name")
